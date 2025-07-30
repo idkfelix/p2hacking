@@ -1,0 +1,82 @@
+#
+# Local PCMCIA Configuration File
+#
+#----------------------------------------------------------------------
+#
+# System resources available for PCMCIA cards
+#
+# NOTE: these settings have no effect on resources assigned to a
+# CardBus bridge device itself; this file only affects resources
+# assigned to cards.  Also, interrupt settings here will only affect
+# ISA bus interrupts assigned to 16-bit cards.  PCI interrupts
+# generally can't be reconfigured.
+#
+# With the kernel PCMCIA subsystem, these settings also have no effect
+# at all on resources used for 32-bit CardBus cards.  Those are set by
+# the PCI hotplug subsystem.
+#
+
+# TSPI:012 2003/10/23
+# include port 0x100-0x4ff, port 0x800-0x8ff, port 0xc00-0xcff
+include memory 0xc0000-0xfffff
+include memory 0xa0000000-0xa0ffffff, memory 0x60000000-0x60ffffff
+include memory 0xfd050000-0xfd05ffff
+include memory 0xfd060000-0xfd06ffff
+include memory 0xfd070000-0xfd07ffff
+include memory 0xfd080000-0xfd08ffff
+include memory 0xfd090000-0xfd09ffff
+include port 0x100-0x4ff, port 0xc00-0xcff
+
+# High port numbers do not always work...
+# include port 0x1000-0x17ff
+
+# TSPI:013 2003/10/23
+# Extra port range for IBM Token Ring
+# include port 0xa00-0xaff
+
+# Resources we should not use, even if they appear to be available
+
+# First built-in serial port
+exclude irq 4
+# Second built-in serial port
+#exclude irq 3
+# First built-in parallel port
+exclude irq 7
+
+#----------------------------------------------------------------------
+
+# Examples of options for loadable modules
+
+# TSPI:021 2003/11/24
+# Options for 3COM 3CCFE575CT
+###comment out 040220tokada
+###module "3c59x" opts "down_poll_rate=0 debug=1"
+
+# TSPI:021 2003/11/24
+# Options for Linksys PCM200
+###comment out 040220tokada
+###module "tulip_cb" opts "options=0 debug=1 csr0=0x00A0C000 full_duplex=1"
+
+# To fix sluggish network with IBM ethernet adapter...
+#module "pcnet_cs" opts "mem_speed=600"
+
+# Options for IBM Token Ring adapters
+#module "ibmtr_cs" opts "mmiobase=0xd0000 srambase=0xd4000"
+
+# Options for Raylink/WebGear driver: uncomment only one line...
+# Generic ad-hoc network
+###comment out 040220tokada
+###module "ray_cs" opts "essid=ADHOC_ESSID hop_dwell=128 beacon_period=256 translate=1"
+# Infrastructure network for older cards
+#module "ray_cs" opts "net_type=1 essid=ESSID1"
+# Infrastructure network for WebGear
+#module "ray_cs" opts "net_type=1 essid=ESSID1 translate=1 hop_dwell=128 beacon_period=256"
+
+# Options for WaveLAN/IEEE driver (AccessPoint mode)...
+#module "wvlan_cs" opts "station_name=MY_PC"
+# Options for WaveLAN/IEEE driver (ad-hoc mode)...
+#module "wvlan_cs" opts "port_type=3 channel=1 station_name=MY_PC"
+
+# Options for Xircom Netwave driver...
+#module "netwave_cs" opts "domain=0x100 scramble_key=0x0"
+

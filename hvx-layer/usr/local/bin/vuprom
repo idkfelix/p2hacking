@@ -1,0 +1,196 @@
+#!/bin/ash
+# ===========================================================
+# vuprom - ROM update script
+#  command:
+#    vuprom filename [option] [option] [option] ...
+#      filename: romimage file path
+#      option: update ROM area
+#	  all
+#         1stbl
+#         2ndbl1
+#         2ndbl2
+#         home
+#         rootfs
+#         kernel
+#         vupkernel
+#         vupramdisk
+# ===========================================================
+# -----------------------------------------------------------
+#   Global definitions
+# -----------------------------------------------------------
+RAMFS=/mnt/ramfs
+IMG_1STBL=netboot-1st.binary
+MTD_1STBL=/dev/mtd0
+IMG_2NDBL1=netboot1.binary
+MTD_2NDBL1=/dev/mtd1
+IMG_2NDBL2=netboot2.binary
+MTD_2NDBL2=/dev/mtd2
+IMG_KERNEL=vmlinux.bin
+MTD_KERNEL=/dev/mtd3
+IMG_HOME=home.image
+MTD_HOME=/dev/mtd4
+IMG_ROOTFS=rootfs.image
+MTD_ROOTFS=/dev/mtd5
+IMG_VUPKERNEL=vmlinux-vup.bin
+MTD_VUPKERNEL=/dev/mtd6
+IMG_VUPRAMDISK=ramdisk.gz
+MTD_VUPRAMDISK=/dev/mtd7
+FILELIST=filelist
+
+# -----------------------------------------------------------
+#   Functions
+# -----------------------------------------------------------
+chkerr() {
+    if [ $1 != 0 ]; then
+	echo "*** VUP file error! ***"
+	exit -1
+    fi
+    return 0
+}
+
+update_1stbl()
+{
+	echo "$IMG_1STBL" > $FILELIST
+	tar -z -x -v -T $FILELIST -f $ROMIMAGE
+	chkerr $?
+	eraseall $MTD_1STBL
+	cp $IMG_1STBL $MTD_1STBL
+	rm -rf $IMG_1STBL
+}
+
+update_2ndbl1()
+{
+	echo "$IMG_2NDBL1" > $FILELIST
+	tar -z -x -v -T $FILELIST -f $ROMIMAGE
+	chkerr $?
+	eraseall $MTD_2NDBL1
+	cp $IMG_2NDBL1 $MTD_2NDBL1
+	rm -rf $IMG_2NDBL1
+}
+
+update_2ndbl2()
+{
+	echo "$IMG_2NDBL2" > $FILELIST
+	tar -z -x -v -T $FILELIST -f $ROMIMAGE
+	chkerr $?
+	eraseall $MTD_2NDBL2
+	cp $IMG_2NDBL2 $MTD_2NDBL2
+	rm -rf $IMG_2NDBL2
+}
+
+update_kernel()
+{
+	echo "$IMG_KERNEL" > $FILELIST
+	tar -z -x -v -T $FILELIST -f $ROMIMAGE
+	chkerr $?
+	eraseall $MTD_KERNEL
+	cp $IMG_KERNEL $MTD_KERNEL
+	rm -rf $IMG_KERNEL
+}
+
+update_home()
+{
+	echo "$IMG_HOME" > $FILELIST
+	tar -z -x -v -T $FILELIST -f $ROMIMAGE
+	chkerr $?
+	eraseall $MTD_HOME
+	cp $IMG_HOME $MTD_HOME
+	rm -rf $IMG_HOME
+}
+
+update_rootfs()
+{
+	echo "$IMG_ROOTFS" > $FILELIST
+	tar -z -x -v -T $FILELIST -f $ROMIMAGE
+	chkerr $?
+	eraseall $MTD_ROOTFS
+	cp $IMG_ROOTFS $MTD_ROOTFS
+	rm -rf $IMG_ROOTFS
+}
+
+update_vupkernel()
+{
+	echo "$IMG_VUPKERNEL" > $FILELIST
+	tar -z -x -v -T $FILELIST -f $ROMIMAGE
+	chkerr $?
+	eraseall $MTD_VUPKERNEL
+	cp $IMG_VUPKERNEL $MTD_VUPKERNEL
+	rm -rf $IMG_VUPKERNEL
+}
+
+update_vupramdisk()
+{
+	echo "$IMG_VUPRAMDISK" > $FILELIST
+	tar -z -x -v -T $FILELIST -f $ROMIMAGE
+	chkerr $?
+	eraseall $MTD_VUPRAMDISK
+	cp $IMG_VUPRAMDISK $MTD_VUPRAMDISK
+	rm -rf $IMG_VUPRAMDISK
+}
+
+
+
+# -----------------------------------------------------------
+#   Main
+# -----------------------------------------------------------
+if [ -f $1 ];then
+	echo "ROM image file : $1"
+	ROMIMAGE=$1
+else
+	echo "Error: $1 not found!"
+	exit 1
+fi
+
+shift
+
+mkdir -p $RAMFS
+mount -t ramfs ramfs $RAMFS
+cd $RAMFS
+
+for option in $*;
+do
+	rm -rf *
+	case "$option" in
+	"1stbl" )
+		update_1stbl
+		;;
+	"2ndbl1" )
+		update_2ndbl1
+		;;
+	"2ndbl2" )
+		update_2ndbl2
+		;;
+	"home" )
+		update_home
+		;;
+	"kernel" )
+		update_kernel
+		;;
+	"rootfs" )
+		update_rootfs
+		;;
+	"vupkernel" )
+		update_vupkernel
+		;;
+	"vupramdisk" )
+		update_vupramdisk
+		;;
+	"all" )
+		update_1stbl
+		update_2ndbl1
+		update_2ndbl2
+		update_kernel
+		update_home
+		update_rootfs
+		update_vupkernel
+		update_vupramdisk
+		;;
+	* )
+		echo "Error: Unknown image name."
+		exit 1
+		;;
+	esac
+done
+rm -rf *
+
+exit 0

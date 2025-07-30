@@ -1,0 +1,49 @@
+#!/bin/sh
+
+### Manual mount script for SDcard (single cards)
+
+## arg check
+if [ $# -ne 0 ];
+then
+	echo "usage: %${0} (no arg)"
+	exit 1
+fi
+
+### check sdcard driver already loaded
+sdexist=`/sbin/lsmod \
+	| grep sdcard \
+	| wc -l \
+	| sed 's/ //g' `
+
+### load sdcard driver
+if [ $sdexist -eq 0 ];
+then
+	modprobe sdcard > /dev/null 2>&1
+fi
+
+## do mount sdcard
+mntmsg=`mount -t msdos /dev/sdcarda1 /mnt/sdcarda -o noatime 2>&1 `
+
+## mount error check
+if [ `echo $mntmsg | grep "wrong fs type" | wc -l` -ge 1 ];
+then
+	echo $mntmsg
+	echo "sdcard mount error."
+	echo "### Please format sdcard by PC fomatter ###"
+	exit 1
+fi
+
+## read-only mount check
+if [ `echo $mntmsg | grep "mounting read-only" | wc -l` -ge 1 ];
+then
+	echo $mntmsg
+	df | grep  -e "/dev/sdcard" -e "Filesystem"
+	exit 1
+fi
+
+## mount OK
+echo mounted
+df | grep  -e "/dev/sdcard" -e "Filesystem"
+
+exit 0
+

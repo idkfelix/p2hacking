@@ -1,0 +1,87 @@
+#!/bin/sh
+
+# Panasonic P2 original pcmcia script 2004/07/30
+#
+#  Be sure following target environment
+#
+#  /sbin/cardmgr
+#  /sbin/cardctl
+#  /var/lib/pcmcia/scheme (empty file)
+#  /var/lib/pcmcia/stab
+#  /lib/modules/`uname -r`/pcmcia-config/pcmcia
+#  /lib/modules/`uname -r`/pcmcia/pcmcia_core.o
+#  /lib/modules/`uname -r`/pcmcia/i82365.o
+#  /lib/modules/`uname -r`/pcmcia/ds.o
+#  /lib/modules/`uname -r`/pcmcia/cb_enabler.o
+#  /lib/modules/`uname -r`/pcmcia/spd.o
+  
+
+. /lib/modules/`uname -r`/pcmcia-config/pcmcia
+
+EXITCODE=1
+for x in "1" ; do
+
+    action=$1
+    case "$action" in
+
+    start)
+	/sbin/modprobe pcmcia_core
+	/sbin/modprobe i82365 irq_mode=0
+	/sbin/modprobe ds
+	/sbin/modprobe cb_enabler
+	/sbin/modprobe spd_mod > /dev/null 2>&1
+	/sbin/cardmgr -q -c /lib/modules/`uname -r`/pcmcia-config
+	touch /var/lock/subsys/pcmcia
+	EXITCODE=0
+	;;
+
+    stop)
+	echo -n "Shutting down PCMCIA services: "
+	if [ -s /var/run/cardmgr.pid ] ; then
+	    PID=`cat /var/run/cardmgr.pid`
+	    kill $PID
+	    # Give cardmgr a few seconds to handle the signal
+	    for N in 1 2 3 4 5 1 2 3 4 5 1 2 3 4 5 ; do
+		kill -0 $PID 2>/dev/null || break
+		sleep 2
+	    done
+	fi
+	killall -q "CardBus Watcher"
+	if grep -q "ds  " /proc/modules ; then
+	    /sbin/rmmod spd_mod
+	    /sbin/rmmod cb_enabler
+	    /sbin/rmmod ds
+	    /sbin/rmmod i82365 2>/dev/null || \
+	    /sbin/rmmod pcmcia_core
+	fi
+	rm -f /var/lock/subsys/pcmcia
+	EXITCODE=0
+	;;
+
+    status)
+	pid=`/sbin/pidof cardmgr`
+	if [ "$pid" != "" ] ; then
+	    echo "cardmgr (pid $pid) is running..."
+	    EXITCODE=0
+	else
+	    echo "cardmgr is stopped"
+	    EXITCODE=3
+	fi
+	;;
+
+    restart|reload)
+	$0 stop
+	$0 start
+	EXITCODE=$?
+	;;
+
+    *)
+    echo "Usage: $0 {start|stop|status|restart|reload}"
+	;;
+
+    esac
+
+done
+
+# Only exit if we're in our own subshell
+case $0 in *rc.pcmcia) exit $EXITCODE ;; esac

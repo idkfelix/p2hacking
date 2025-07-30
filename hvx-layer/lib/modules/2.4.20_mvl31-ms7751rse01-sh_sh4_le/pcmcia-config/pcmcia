@@ -1,0 +1,6 @@
+PCMCIA=yes
+PCIC=i82365
+#PCIC_OPTS="irq_mode=0 pci_irq_list=10,8,8,9,9,10"
+PCIC_OPTS="irq_mode=0" 
+CORE_OPTS=
+CARDMGR_OPTS="-c /lib/modules/`uname -r`/pcmcia-config"

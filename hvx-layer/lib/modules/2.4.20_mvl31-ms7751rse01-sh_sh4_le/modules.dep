@@ -1,0 +1,39 @@
+/lib/modules/2.4.20_mvl31-ms7751rse01-sh_sh4_le/kernel/drivers/ieee1394.master/ieee1394master.o:
+
+/lib/modules/2.4.20_mvl31-ms7751rse01-sh_sh4_le/kernel/drivers/ieee1394.master/ohci1394master.o:	/lib/modules/2.4.20_mvl31-ms7751rse01-sh_sh4_le/kernel/drivers/ieee1394.master/ieee1394master.o
+
+/lib/modules/2.4.20_mvl31-ms7751rse01-sh_sh4_le/kernel/drivers/ieee1394.master/sbp2master.o:
+
+/lib/modules/2.4.20_mvl31-ms7751rse01-sh_sh4_le/kernel/drivers/ieee1394.target/ieee1394target.o:
+
+/lib/modules/2.4.20_mvl31-ms7751rse01-sh_sh4_le/kernel/drivers/ieee1394.target/ohci1394target.o:	/lib/modules/2.4.20_mvl31-ms7751rse01-sh_sh4_le/kernel/drivers/ieee1394.master/ieee1394master.o \
+	/lib/modules/2.4.20_mvl31-ms7751rse01-sh_sh4_le/kernel/drivers/ieee1394.target/ieee1394target.o
+
+/lib/modules/2.4.20_mvl31-ms7751rse01-sh_sh4_le/kernel/drivers/ieee1394.target/sbp2target.o:	/lib/modules/2.4.20_mvl31-ms7751rse01-sh_sh4_le/pcmcia/spd_mod.o \
+	/lib/modules/2.4.20_mvl31-ms7751rse01-sh_sh4_le/kernel/drivers/ieee1394.master/ieee1394master.o \
+	/lib/modules/2.4.20_mvl31-ms7751rse01-sh_sh4_le/kernel/drivers/ieee1394.target/ohci1394target.o \
+	/lib/modules/2.4.20_mvl31-ms7751rse01-sh_sh4_le/kernel/drivers/ieee1394.target/ieee1394target.o
+
+/lib/modules/2.4.20_mvl31-ms7751rse01-sh_sh4_le/kernel/drivers/scsi/scsi_mod.o:
+
+/lib/modules/2.4.20_mvl31-ms7751rse01-sh_sh4_le/kernel/drivers/scsi/sd_mod.o:	/lib/modules/2.4.20_mvl31-ms7751rse01-sh_sh4_le/kernel/drivers/scsi/scsi_mod.o
+
+/lib/modules/2.4.20_mvl31-ms7751rse01-sh_sh4_le/kernel/drivers/sdcard/sdcard.o:
+
+/lib/modules/2.4.20_mvl31-ms7751rse01-sh_sh4_le/kernel/drivers/spd/osdfpga/osdfpga.o:
+
+/lib/modules/2.4.20_mvl31-ms7751rse01-sh_sh4_le/kernel/drivers/usb/gadget/net2280.o:
+
+/lib/modules/2.4.20_mvl31-ms7751rse01-sh_sh4_le/pcmcia/cb_enabler.o:	/lib/modules/2.4.20_mvl31-ms7751rse01-sh_sh4_le/pcmcia/ds.o \
+	/lib/modules/2.4.20_mvl31-ms7751rse01-sh_sh4_le/pcmcia/pcmcia_core.o
+
+/lib/modules/2.4.20_mvl31-ms7751rse01-sh_sh4_le/pcmcia/ds.o:	/lib/modules/2.4.20_mvl31-ms7751rse01-sh_sh4_le/pcmcia/pcmcia_core.o
+
+/lib/modules/2.4.20_mvl31-ms7751rse01-sh_sh4_le/pcmcia/i82365.o:	/lib/modules/2.4.20_mvl31-ms7751rse01-sh_sh4_le/pcmcia/pcmcia_core.o
+
+/lib/modules/2.4.20_mvl31-ms7751rse01-sh_sh4_le/pcmcia/pcmcia_core.o:
+
+/lib/modules/2.4.20_mvl31-ms7751rse01-sh_sh4_le/pcmcia/spd_mod.o:	/lib/modules/2.4.20_mvl31-ms7751rse01-sh_sh4_le/pcmcia/cb_enabler.o
+
+/lib/modules/2.4.20_mvl31-ms7751rse01-sh_sh4_le/pcmcia/tcic.o:	/lib/modules/2.4.20_mvl31-ms7751rse01-sh_sh4_le/pcmcia/pcmcia_core.o
+

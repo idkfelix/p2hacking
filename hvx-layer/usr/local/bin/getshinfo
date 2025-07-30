@@ -1,0 +1,24 @@
+#!/bin/sh
+
+if test $1;
+then
+
+mntsd
+
+echo " =========== [[ SH-STATE ]] ============ " > /mnt/sdcarda/$1
+date >> /mnt/sdcarda/$1
+
+### ps axu
+ps axu >> /mnt/sdcarda/$1
+
+### print all log 
+cat /var/log/messages.0 /var/log/messages >> /mnt/sdcarda/$1
+
+umount /mnt/sdcarda
+else
+### ps axu
+ps axu
+
+### print all log 
+cat /var/log/messages.0 /var/log/messages
+fi

@@ -1,0 +1,6 @@
+#!/bin/sh
+
+### restart syslog 
+/etc/init.d/syslog restart-debug
+### get syslog from fifo-buffer
+cat /var/log/logfifo

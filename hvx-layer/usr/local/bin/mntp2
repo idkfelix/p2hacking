@@ -1,0 +1,86 @@
+#!/bin/sh
+
+### Manual mount script for P2card (multi cards)
+###  
+###  050527 : add K230(2slot) devfn check by env value HOSTNAME.
+
+## arg check
+if [ $# -ne 0 ];
+then
+        echo "usage: %${0} (no arg)"
+        exit 1
+fi
+
+# func_mount()
+#  $1: devfn(pci_slot)
+#  $2: cardbusno(hex)
+func_mount() {
+	### convert devfn to a-f
+	case $1 in
+		02.0) letter=a ;;
+		02.1) letter=b ;;
+		03.0) letter=c ;;
+		03.1) letter=d ;;
+		04.0) 
+		      if [ `hostname` = "AG-HVX200" ];
+		        then
+			      letter=a  #only 2slot
+		        else
+			      letter=e
+		      fi
+			  ;;
+		04.1) 
+		      if [ `hostname` = "AG-HVX200" ];
+		        then
+			      letter=b  #only 2slot
+		        else
+			      letter=f
+		      fi
+			  ;;
+	esac
+	### convert hex to dec
+	case $2 in
+		01) busdec=1 ;;
+		05) busdec=5 ;;
+		09) busdec=9 ;;
+		0d) busdec=13 ;;
+		11) busdec=17 ;;
+		15) busdec=21 ;;
+	esac
+	### mount check
+	if [ `df | grep /dev/spd${letter}1 | wc -l` -eq 0 ];
+	then ### not mounted
+		## card existence check
+		cdex=`cat /proc/pci | egrep "^ *Bus *${busdec},"  | awk '{print $2}' | sed "s/,//"`
+		if [ $cdex ];
+		then ## card exist
+			if [ `mount -t msdos /dev/spd${letter}1 /mnt/spd${letter} -o spd,noatime 2>&1 | wc -l` -ge 1 ];
+			then
+				echo "### Please format % /sbin/mkspdfs /dev/spd${letter}"
+				exit 1
+			fi
+			echo mounted
+			df | grep  -e "/dev/spd${letter}" -e "Filesystem"
+		fi
+	fi
+}
+
+### check pccard slot
+allslot=`/bin/ls /proc/bus/pccard \
+	| grep [0-9]. \
+	| tr "\n" " "`
+
+## do formatting except already mounted
+for slot in ${allslot}
+do
+	devfn=`cat /proc/bus/pccard/${slot}/info \
+		| grep devfn: \
+		| awk '{print $2}'`
+	bushex=`cat /proc/bus/pccard/${slot}/info \
+		| grep "cardbus:" \
+		| awk '{print $2}'`
+	func_mount $devfn $bushex
+done
+
+exit 0
+
