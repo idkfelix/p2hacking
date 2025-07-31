@@ -6,16 +6,16 @@
  ░███ ░███  ███░░░░   ░███ ░███   ███████ ░███ ░░░  ░██████░   ░███  ░███ ░███ ░███ ░███  
  ░███ ░███ ███      █ ░███ ░███  ███░░███ ░███  ███ ░███░░███  ░███  ░███ ░███ ░███ ░███  
  ░███████ ░██████████ ████ █████░░████████░░██████  ████ █████ █████ ████ █████░░███████  
- ░███░░░  ░░░░░░░░░░ ░░░░ ░░░░░  ░░░░░░░░  ░░░░░░  ░░░░ ░░░░░ ░░░░░ ░░░░ ░░░░░  ░░░░░███  
- ░███                                                                           ███ ░███  
- █████                                                                         ░░██████   
-░░░░░                                                                           ░░░░░░    
+ ░███░░░  ░░░░░░░░░░ ░░░░ ░░░░░  ░░░░░░░░  ░░░░░░  ░░░░ ░░░░░ ░░░░░ ░░░░ ░░░░░  ░░░░░███                        ╱|、
+ ░███                                                                           ███ ░███                      (˚ˎ 。7  
+ █████                                                                         ░░██████                        |、˜〵          
+░░░░░                                                                           ░░░░░░                         じしˍ,)ノ
 ```  
+<br>
+  
+- [`/`](./)  
+    - [`K2302032`](./K2302032/) Contents of the 4.10-00-0.00 firmware update for the AG-HVX200/P,E,MC  
+    - [`hvx-layer`](./hvx-layer/) Key components of the AG-HVX200 linux filesystem for P2 cards  
+    - [`NOTES`](./NOTES.md) Quickstart for the P2 Card format, drivers and hardware
 
-  
-- `/`  
-    - `K2302032` Contents of the 4.10-00-0.00 firmware update for AG-HVX200/P,E,MC  
-    - `hvx-layer` Key components of the AG-HVX200 linux filesystem for P2 cards  
-    - [`NOTES`](./NOTES.md) Quickstart for P2 architecture  
-  
-  
+<br><br>
