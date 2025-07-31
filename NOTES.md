@@ -1,0 +1,26 @@
+# Project Notes  
+- General Info  
+    - SH-4 (SuperH) Architecture is used on the AG-HVX200's CPU  
+    - `sh-elf-objdump` works well for decompiling SH-4 objects  
+    - `.image` files in the firmware are usually using cramfs  
+- P2 Card Hardware (AJ-P2C008HG)  
+    - PCMCIA Type-II card form factor and interface (PCI)  
+    - Package houses 4x RP-SDK02G SD cards (Model AJ-P2C008HG)  
+    - The SD cards are in a RAID 0 configuration for speed  
+    - Each card is numbered and cannot be swapped or replaced  
+    - The pcb features two main packages:  
+        - Spansion `S29AL008D70TF102` TSOP 8Mb Boot Sector Flash Memory  
+            - Stores the PCMCIA CIS information  
+            - Can be reflashed at anytime (no R/W protection)  
+        - `BE20PA 623A10 01` RAID Controller\*  
+            - \*No information available online  
+            - flip-chip style BGA package uses the case as a heatsink  
+            - Another P2 card model has a similar `BE20PA 544A30 01`  
+- P2 Firmware & Drivers  
+    - Based ontop of common PCMCIA driver  
+    - Configures driver to register devices as `/dev/spdX`  
+    - `mkspdfs` binary is used to format cards  
+    - P2 cards are mounted with the `-o spd,noatime`  
+    - Manually mount cards with `/usr/local/bin/mntp2`  
+    - Session Description Protocol (SDP-2) is used when recording  
+
