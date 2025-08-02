@@ -14,8 +14,8 @@
 <br>
   
 - [`/`](./)  
-    - [`K2302032`](./K2302032/) Contents of the 4.10-00-0.00 firmware update for the AG-HVX200/P,E,MC  
-    - [`hvx-layer`](./hvx-layer/) Key components of the AG-HVX200 linux filesystem for P2 cards  
-    - [`NOTES`](./NOTES.md) Quickstart for the P2 Card format, drivers and hardware
+    - [`firmware`](./firmware/) Contents of the 4.10-00-0.00 firmware update for the AG-HVX200/P,E,MC  
+    - [`hvx200`](./hvx200/) Key components of the AG-HVX200 linux filesystem for P2 cards  
+    - [`docs`](./docs/) Resources and notes about the p2 format and hardware
 
 <br><br>
